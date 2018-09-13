@@ -14,6 +14,11 @@ public class RecyclerFragment extends Fragment {
 
     private RecyclerView mRecycler;
 
+    public static RecyclerFragment newInstance() {
+
+        return new RecyclerFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
