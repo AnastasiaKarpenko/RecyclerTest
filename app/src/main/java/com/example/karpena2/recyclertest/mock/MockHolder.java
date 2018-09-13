@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.example.karpena2.recyclertest.R;
 
-class MockHolder extends RecyclerView.ViewHolder {
+public class MockHolder extends RecyclerView.ViewHolder {
     private TextView mName;
     private TextView mValue;
 

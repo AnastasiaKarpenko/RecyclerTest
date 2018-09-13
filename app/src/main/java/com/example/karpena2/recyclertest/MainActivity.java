@@ -8,7 +8,7 @@ public class MainActivity extends AppCompatActivity {
     // Add a Fragment with RecyclerView | done
     // Add an Adapter, Holder and Generator of Data | done
     // Add data refresh and state of error | done
-    // Add data loading from the contacts app
+    // Add data loading from the contacts app | done
     // Handle on click
     // Add decorators
 

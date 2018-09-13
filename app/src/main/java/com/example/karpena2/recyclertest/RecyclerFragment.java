@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.karpena2.recyclertest.mock.MockAdapter;
 import com.example.karpena2.recyclertest.mock.MockGenerator;
 
 import java.util.Random;
@@ -26,7 +25,7 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private RecyclerView mRecycler;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private final MockAdapter mMockAdapter = new MockAdapter();
+    private final ContactsAdapter mContactsAdapter = new ContactsAdapter();
     private View mErrorView;
     private Random mRandom = new Random();
 
@@ -54,45 +53,45 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecycler.setAdapter(mMockAdapter);
-        mMockAdapter.addData(MockGenerator.generate(20), false);
+        mRecycler.setAdapter(mContactsAdapter);
+//        mMockAdapter.addData(MockGenerator.generate(20), false);
     }
 
     @Override
     public void onRefresh() {
-        mSwipeRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int count = mRandom.nextInt(4);
-
-                if (count == 0) {
-                    showError();
-                } else {
-                    showData(count);
-                }
-
-
-                if (mSwipeRefreshLayout.isRefreshing()) {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
-
-            }
-        }, 2000);
-
-
-    }
-
-    private void showData(int count) {
-        mMockAdapter.addData(MockGenerator.generate(count), true);
-        mErrorView.setVisibility(View.GONE);
-        mRecycler.setVisibility(View.VISIBLE);
-    }
-
-    private void showError() {
-        mErrorView.setVisibility(View.VISIBLE);
-        mRecycler.setVisibility(View.GONE);
+//        mSwipeRefreshLayout.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                int count = mRandom.nextInt(4);
+//
+//                if (count == 0) {
+//                    showError();
+//                } else {
+//                    showData(count);
+//                }
+//
+//
+//                if (mSwipeRefreshLayout.isRefreshing()) {
+//                    mSwipeRefreshLayout.setRefreshing(false);
+//                }
+//
+//            }
+//        }, 2000);
+        getLoaderManager().restartLoader(0, null, this);
 
     }
+
+//    private void showData(int count) {
+//        mMockAdapter.addData(MockGenerator.generate(count), true);
+//        mErrorView.setVisibility(View.GONE);
+//        mRecycler.setVisibility(View.VISIBLE);
+//    }
+//
+//    private void showError() {
+//        mErrorView.setVisibility(View.VISIBLE);
+//        mRecycler.setVisibility(View.GONE);
+//
+//    }
 
     @NonNull
     @Override
@@ -104,6 +103,10 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+        mContactsAdapter.swapCursor(cursor);
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
 
     }
 
