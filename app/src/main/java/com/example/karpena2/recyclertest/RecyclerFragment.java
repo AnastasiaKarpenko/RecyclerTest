@@ -1,9 +1,14 @@
 package com.example.karpena2.recyclertest;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +21,7 @@ import com.example.karpena2.recyclertest.mock.MockGenerator;
 
 import java.util.Random;
 
-public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 
     private RecyclerView mRecycler;
@@ -86,6 +91,24 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void showError() {
         mErrorView.setVisibility(View.VISIBLE);
         mRecycler.setVisibility(View.GONE);
+
+    }
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
+        return new CursorLoader(getActivity(), ContactsContract.Contacts.CONTENT_URI,
+                new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME},
+                null, null, ContactsContract.Contacts._ID);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
     }
 }
