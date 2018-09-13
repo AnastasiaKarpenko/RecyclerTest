@@ -44,7 +44,7 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
         super.onActivityCreated(savedInstanceState);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecycler.setAdapter(mMockAdapter);
-        mMockAdapter.addData(MockGenerator.generate(20));
+        mMockAdapter.addData(MockGenerator.generate(20), false);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
         mSwipeRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mMockAdapter.addData(MockGenerator.generate(5));
+                mMockAdapter.addData(MockGenerator.generate(5), true);
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
