@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.karpena2.recyclertest.mock.MockAdapter;
 import com.example.karpena2.recyclertest.mock.MockGenerator;
 
-public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
 
     private RecyclerView mRecycler;
@@ -36,6 +36,7 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mRecycler = view.findViewById(R.id.recycler);
         mSwipeRefreshLayout = view.findViewById(R.id.refresher);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -48,7 +49,16 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMockAdapter.addData(MockGenerator.generate(5));
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
 
+            }
+        }, 2000);
 
 
     }
