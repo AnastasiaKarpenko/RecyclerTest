@@ -2,22 +2,30 @@ package com.example.karpena2.recyclertest.mock;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.karpena2.recyclertest.R;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class MockAdapter extends RecyclerView.Adapter<MockHolder> {
-    private List<Mock> mMockList;
+    private final List<Mock> mMockList = new ArrayList<>();
 
 
     @NonNull
     @Override
     public MockHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return null;
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        View view = inflater.inflate(R.layout.list_item_mock, viewGroup, false);
+        return new MockHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MockHolder mockHolder, int i) {
+        mockHolder.bind(mMockList.get(i));
 
     }
 
@@ -25,5 +33,10 @@ public class MockAdapter extends RecyclerView.Adapter<MockHolder> {
     @Override
     public int getItemCount() {
         return mMockList.size();
+    }
+
+    public void addData(List<Mock> mocks) {
+        mMockList.addAll(mocks);
+        notifyDataSetChanged();
     }
 }

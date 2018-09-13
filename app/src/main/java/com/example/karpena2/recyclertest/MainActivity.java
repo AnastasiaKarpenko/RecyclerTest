@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     // Add a Fragment with RecyclerView | done
-    // Add an Adapter, Holder and Generator of Data
+    // Add an Adapter, Holder and Generator of Data | done
     // Add data refresh and state of error
     // Add data loading from the contacts app
     // Handle on click
