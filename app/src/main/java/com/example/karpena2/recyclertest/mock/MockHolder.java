@@ -11,6 +11,7 @@ import com.example.karpena2.recyclertest.R;
 public class MockHolder extends RecyclerView.ViewHolder {
     private TextView mName;
     private TextView mValue;
+    private String mId;
 
     public MockHolder(@NonNull View itemView) {
         super(itemView);
@@ -21,6 +22,7 @@ public class MockHolder extends RecyclerView.ViewHolder {
     public void bind(Mock mock) {
         mName.setText(mock.getName());
         mValue.setText(mock.getValue());
+        mId = mock.getValue();
     }
 
 
@@ -28,7 +30,7 @@ public class MockHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemClick();
+                listener.onItemClick(mId);
             }
         });
     }
