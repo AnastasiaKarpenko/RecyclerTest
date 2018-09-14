@@ -63,6 +63,7 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
         super.onActivityCreated(savedInstanceState);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecycler.setAdapter(mContactsAdapter);
+        getLoaderManager().initLoader(0, null, this);
         mContactsAdapter.setListener(mOnItemClickListener);
     }
 
