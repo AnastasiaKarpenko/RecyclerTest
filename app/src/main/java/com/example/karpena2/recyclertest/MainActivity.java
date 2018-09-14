@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.O
     // Add data refresh and state of error | done
     // Add data loading from the contacts app | done
     // Handle on click | done
-    // Add decorators
+    // Add decorators | done
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
