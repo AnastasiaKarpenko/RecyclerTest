@@ -1,21 +1,17 @@
 package com.example.karpena2.recyclertest;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements ContactsAdapter.OnItemClickListener {
-
-    // Add a Fragment with RecyclerView | done
-    // Add an Adapter, Holder and Generator of Data | done
-    // Add data refresh and state of error | done
-    // Add data loading from the contacts app | done
-    // Handle on click | done
-    // Add decorators | done
+public class MainActivity extends AppCompatActivity implements ContactsAdapter.OnItemClickListener, LoaderManager.LoaderCallbacks<String> {
+    private String ID = "ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,24 +27,29 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.O
 
     @Override
     public void onItemClick(String id) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ID, id);
 
-        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND " +
-                        ContactsContract.CommonDataKinds.Phone.TYPE + " = ?",
-                new String[]{id, String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)},
-                null);
+        getSupportLoaderManager().restartLoader(0, bundle, this).forceLoad();
+    }
 
-        if (cursor != null && cursor.moveToFirst()) {
-            String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            cursor.close();
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int i, @Nullable Bundle bundle) {
+        return new PhoneNumberLoader(this, bundle.getString(ID));
+    }
 
-            startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + number)));
-
-
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String s) {
+        if (s != null) {
+            startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + s)));
+        } else {
+            Toast.makeText(this, "This contact has no number", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
 
-        Toast.makeText(this, "clicked " + id, Toast.LENGTH_SHORT).show();
     }
 }
