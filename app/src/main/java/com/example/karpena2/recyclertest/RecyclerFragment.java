@@ -1,5 +1,6 @@
 package com.example.karpena2.recyclertest;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -16,8 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.karpena2.recyclertest.mock.MockGenerator;
-
 import java.util.Random;
 
 public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -28,11 +27,20 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
     private final ContactsAdapter mContactsAdapter = new ContactsAdapter();
     private View mErrorView;
     private Random mRandom = new Random();
+    private ContactsAdapter.OnItemClickListener mOnItemClickListener;
 
 
     public static RecyclerFragment newInstance() {
 
         return new RecyclerFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ContactsAdapter.OnItemClickListener) {
+            mOnItemClickListener = (ContactsAdapter.OnItemClickListener) context;
+        }
     }
 
     @Nullable
@@ -49,49 +57,20 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
         mErrorView = view.findViewById(R.id.error_view);
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecycler.setAdapter(mContactsAdapter);
-//        mMockAdapter.addData(MockGenerator.generate(20), false);
+        mContactsAdapter.setListener(mOnItemClickListener);
     }
 
     @Override
     public void onRefresh() {
-//        mSwipeRefreshLayout.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                int count = mRandom.nextInt(4);
-//
-//                if (count == 0) {
-//                    showError();
-//                } else {
-//                    showData(count);
-//                }
-//
-//
-//                if (mSwipeRefreshLayout.isRefreshing()) {
-//                    mSwipeRefreshLayout.setRefreshing(false);
-//                }
-//
-//            }
-//        }, 2000);
         getLoaderManager().restartLoader(0, null, this);
-
     }
 
-//    private void showData(int count) {
-//        mMockAdapter.addData(MockGenerator.generate(count), true);
-//        mErrorView.setVisibility(View.GONE);
-//        mRecycler.setVisibility(View.VISIBLE);
-//    }
-//
-//    private void showError() {
-//        mErrorView.setVisibility(View.VISIBLE);
-//        mRecycler.setVisibility(View.GONE);
-//
-//    }
 
     @NonNull
     @Override
@@ -113,5 +92,11 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    public void onDetach() {
+        mOnItemClickListener = null;
+        super.onDetach();
     }
 }

@@ -3,7 +3,7 @@ package com.example.karpena2.recyclertest;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ContactsAdapter.OnItemClickListener{
 
     // Add a Fragment with RecyclerView | done
     // Add an Adapter, Holder and Generator of Data | done
@@ -22,5 +22,10 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.container, RecyclerFragment.newInstance())
                     .commit();
         }
+    }
+
+    @Override
+    public void onItemClick() {
+
     }
 }

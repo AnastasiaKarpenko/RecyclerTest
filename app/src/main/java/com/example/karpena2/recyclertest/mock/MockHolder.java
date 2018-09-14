@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.karpena2.recyclertest.ContactsAdapter;
 import com.example.karpena2.recyclertest.R;
 
 public class MockHolder extends RecyclerView.ViewHolder {
@@ -23,4 +24,12 @@ public class MockHolder extends RecyclerView.ViewHolder {
     }
 
 
+    public void setListener(final ContactsAdapter.OnItemClickListener listener) {
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick();
+            }
+        });
+    }
 }
