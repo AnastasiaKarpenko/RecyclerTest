@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="8dp"
     android:background="#FFF"
     app:cardElevation="4dp">
 
@@ -18,7 +17,6 @@
 
         <TextView
             android:id="@+id/tv_name"
-            tools:text="@string/tools_tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -26,16 +24,17 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textColor="@color/colorAccent"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="@string/tools_tv_name" />
 
         <TextView
             android:id="@+id/tv_value"
-            tools:text="@string/tools_tv_value"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            tools:text="@string/tools_tv_value" />
 
 
     </LinearLayout>
